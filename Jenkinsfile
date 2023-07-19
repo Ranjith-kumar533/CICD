@@ -39,8 +39,8 @@ pipeline{
         stage('Sonar Quality check'){
             when{ expression { params.action == 'Create'} }
             steps{
-                def token = "${params.cred}"
-                    script{
+                script{
+                        def token = "${params.cred}"
                         mvnIntegrationtest(token)
                     }
                 
