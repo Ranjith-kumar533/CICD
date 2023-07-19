@@ -43,9 +43,16 @@ pipeline{
                         def token = "${params.cred}"
                         codeQualitycheck(token)
                     }
-                
-            }
-
+                }
+        }
+        stage('Quality Gate status cofirmation'){
+            when{ expression { params.action == 'Create'} }
+            steps{
+                script{
+                        def token = "${params.cred}"
+                        codeQualitycheck(token)
+                    }
+                }
         }
     }
 }
