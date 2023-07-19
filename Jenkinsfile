@@ -40,7 +40,7 @@ pipeline{
             when{ expression { params.action == 'Create'} }
             steps{
                     script{
-                        mvnIntegrationtest(params.cred)
+                        mvnIntegrationtest(${params.cred})
                     }
                 
             }
