@@ -41,7 +41,7 @@ pipeline{
             steps{
                 script{
                         def token = "${params.cred}"
-                        mvnIntegrationtest(token)
+                        codeQualitycheck(token)
                     }
                 
             }
