@@ -7,7 +7,7 @@ pipeline{
     }
     stages{
         stage('Git checkout'){
-            when{ expression { params.action == 'create'} }
+            when{ expression { params.action == 'Create'} }
             steps{
                     gitCheckout(
                         branch: "main",
@@ -17,7 +17,7 @@ pipeline{
             }
         }
             stage('Unit testing'){
-            when{ expression { params.action == 'create'} }
+            when{ expression { params.action == 'Create'} }
             steps{
                     script{
                         mvnTest()
@@ -27,7 +27,7 @@ pipeline{
 
         }
             stage('Integration testing'){
-            when{ expression { params.action == 'create'} }
+            when{ expression { params.action == 'Create'} }
             steps{
                     script{
                         mvnIntegrationtest()
@@ -37,7 +37,7 @@ pipeline{
 
         }
         stage('Sonar Quality check'){
-            when{ expression { params.action == 'create'} }
+            when{ expression { params.action == 'Create'} }
             steps{
                     script{
                         mvnIntegrationtest(params.cred)
