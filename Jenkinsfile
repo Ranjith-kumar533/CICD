@@ -6,7 +6,7 @@ pipeline{
         string(name: 'cred', defaultValue: '', description: '')
         string(name: 'uname', defaultValue: '', description: 'Enter the username')
         string(name: 'repo', defaultValue: '', description: 'Enter the repository')
-        string(name: 'tag', defaultValue: "${BUILD_NUMBER + 1}", description: 'You can use the build number or use your custom version')
+        string(name: 'tag', defaultValue: "Appv${BUILD_NUMBER + 1}", description: 'You can use the build number or use your custom version')
     }
     stages{
         stage('Git checkout'){
@@ -78,6 +78,22 @@ pipeline{
             steps{
                 script{
                        imageScan("${params.uname}","${params.repo}","${params.tag}" )
+                    }
+                }
+        }
+         stage('Pushing image to repo'){
+            when{ expression { params.action == 'Create'} }
+            steps{
+                script{
+                       imagePush("${params.uname}","${params.repo}","${params.tag}" )
+                    }
+                }
+        }
+         stage('Image cleanup'){
+            when{ expression { params.action == 'Create'} }
+            steps{
+                script{
+                       imageCleanup("${params.uname}","${params.repo}","${params.tag}" )
                     }
                 }
         }
