@@ -6,7 +6,7 @@ pipeline{
         string(name: 'cred', defaultValue: '', description: '')
         string(name: 'uname', defaultValue: '', description: 'Enter the username')
         string(name: 'repo', defaultValue: '', description: 'Enter the repository')
-        string(name: 'tag', defaultValue: "${BUILD_NUMBER}+1", description: 'You can use the build number or use your custom version')
+        string(name: 'tag', defaultValue: "${BUILD_NUMBER + 1}", description: 'You can use the build number or use your custom version')
     }
     stages{
         stage('Git checkout'){
