@@ -8,7 +8,7 @@ pipeline{
         string(name: 'uname', defaultValue: '161417064755', description: 'ECR - Account ID \n DockerHub- Repo name')
         string(name: 'repo', defaultValue: 'test', description: 'Enter the repository')
         string(name: 'region', defaultValue: 'us-east-1', description: 'Enter if the repo is ECR')
-        string(name: 'tag', defaultValue: "Appv${BUILD_NUMBER}", description: 'You can use the build number or use your custom version')
+        string(name: 'tag', defaultValue: "appv${BUILD_NUMBER}", description: 'You can use the build number or use your custom version')
         
 
     }
@@ -74,7 +74,7 @@ pipeline{
             steps{
                 script{
                    
-                       dockerBuild("${params.uname}","${params.repo}","${params.tag}","${params.repository}","${params.region}")
+                       dockerBuild("${params.tag}")
                    
                     }
                 }
@@ -83,7 +83,7 @@ pipeline{
             when{ expression { params.action == 'Create'} }
             steps{
                 script{
-                       imageScan("${params.uname}","${params.repo}","${params.tag}","${param.repository}", "${params.region}" )
+                       imageScan("${params.tag}")
                     }
                 }
         }
