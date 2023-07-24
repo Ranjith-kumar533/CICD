@@ -4,9 +4,13 @@ pipeline{
     parameters{
         choice(name: 'action', choices: 'Create\nDelete', description: 'Create or Delete')
         string(name: 'cred', defaultValue: '', description: '')
-        string(name: 'uname', defaultValue: '', description: 'Enter the username')
+        choice(name: 'repository', choices: 'ECR\nDocker', description: 'ECR or Docker hub')
+        string(name: 'uname', defaultValue: '', description: 'ECR - Account ID \n DockerHub- Repo name')
         string(name: 'repo', defaultValue: '', description: 'Enter the repository')
+        string(name: 'region' defaultValue: '', description: 'Enter if the repo is ECR')
         string(name: 'tag', defaultValue: "Appv${BUILD_NUMBER + 1}", description: 'You can use the build number or use your custom version')
+        
+
     }
     stages{
         stage('Git checkout'){
@@ -20,7 +24,7 @@ pipeline{
             }
         }
             stage('Unit testing'){
-            when{ expression { params.action == 'Create'} }
+            when{ expression { params.action == 'Creat'} }
             steps{
                     script{
                         mvnTest()
@@ -30,7 +34,7 @@ pipeline{
 
         }
             stage('Integration testing'){
-            when{ expression { params.action == 'Create'} }
+            when{ expression { params.action == 'Creat'} }
             steps{
                     script{
                         mvnIntegrationtest()
@@ -40,7 +44,7 @@ pipeline{
 
         }
         stage('Sonar Quality check'){
-            when{ expression { params.action == 'Create'} }
+            when{ expression { params.action == 'Creat'} }
             steps{
                 script{
                         def token = "${params.cred}"
@@ -49,7 +53,7 @@ pipeline{
                 }
         }
         stage('Quality Gate status cofirmation'){
-            when{ expression { params.action == 'Create'} }
+            when{ expression { params.action == 'Creat'} }
             steps{
                 script{
                         def token = "${params.cred}"
@@ -58,7 +62,7 @@ pipeline{
                 }
         }
         stage('Maven Build'){
-            when{ expression { params.action == 'Create'} }
+            when{ expression { params.action == 'Creat'} }
             steps{
                 script{
                        mvnBuild()
@@ -69,7 +73,9 @@ pipeline{
             when{ expression { params.action == 'Create'} }
             steps{
                 script{
-                       dockerBuild("${params.uname}","${params.repo}","${params.tag}" )
+                   
+                       dockerBuild("${params.uname}","${params.repo}","${params.tag}","${params.repository}","${params.region}")
+                   
                     }
                 }
         }
@@ -81,11 +87,16 @@ pipeline{
                     }
                 }
         }
-         stage('Pushing image to repo'){
-            when{ expression { params.action == 'Create'} }
+        stage('Pushing image to repo'){
+            when{ expression { params.action == 'Create' } }
             steps{
                 script{
-                       imagePush("${params.uname}","${params.repo}","${params.tag}" )
+                    if ( params.repostiory == 'Docker'){
+                       imagePushDocker("${params.uname}","${params.repo}","${params.tag}" )
+                    }
+                    else{
+                       imagePushECR("${params.uname}","${params.repo}","${params.tag}","${params.region}" )
+                    }
                     }
                 }
         }
