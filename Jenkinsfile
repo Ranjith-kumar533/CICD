@@ -7,7 +7,7 @@ pipeline{
         choice(name: 'repository', choices: 'ECR\nDocker', description: 'ECR or Docker hub')
         string(name: 'uname', defaultValue: '', description: 'ECR - Account ID \n DockerHub- Repo name')
         string(name: 'repo', defaultValue: '', description: 'Enter the repository')
-        string(name: 'region' defaultValue: '', description: 'Enter if the repo is ECR')
+        string(name: 'region', defaultValue: '', description: 'Enter if the repo is ECR')
         string(name: 'tag', defaultValue: "Appv${BUILD_NUMBER + 1}", description: 'You can use the build number or use your custom version')
         
 
