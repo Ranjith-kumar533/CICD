@@ -5,9 +5,9 @@ pipeline{
         choice(name: 'action', choices: 'Create\nDelete', description: 'Create or Delete')
         string(name: 'cred', defaultValue: '', description: '')
         choice(name: 'repository', choices: 'ECR\nDocker', description: 'ECR or Docker hub')
-        string(name: 'uname', defaultValue: '', description: 'ECR - Account ID \n DockerHub- Repo name')
-        string(name: 'repo', defaultValue: '', description: 'Enter the repository')
-        string(name: 'region', defaultValue: '', description: 'Enter if the repo is ECR')
+        string(name: 'uname', defaultValue: '161417064755', description: 'ECR - Account ID \n DockerHub- Repo name')
+        string(name: 'repo', defaultValue: 'test', description: 'Enter the repository')
+        string(name: 'region', defaultValue: 'us-east-1', description: 'Enter if the repo is ECR')
         string(name: 'tag', defaultValue: "Appv${BUILD_NUMBER}", description: 'You can use the build number or use your custom version')
         
 
