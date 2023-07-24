@@ -91,7 +91,7 @@ pipeline{
             when{ expression { params.action == 'Create' } }
             steps{
                 script{
-                    if ( params.repostiory == 'Docker'){
+                    if ( params.repository == 'Docker'){
                        imagePushDocker("${params.uname}","${params.repo}","${params.tag}" )
                     }
                     else{
