@@ -13,4 +13,4 @@ jobs:
       - name: Trigger Jenkins Job
         run: |
           # Replace <JENKINS_WEBHOOK_URL> with the actual URL of your Jenkins webhook
-          curl http://18.235.237.182:8080/job/test/build?token=test
+           curl -X POST -k http://18.235.237.182:8080/github-webhook/
