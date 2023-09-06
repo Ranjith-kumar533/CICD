@@ -1,0 +1,13 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Test') {
+            steps {
+               script{
+                   git branch: 'main', url: 'https://github.com/Ranjith-kumar533/CICD.git'
+               }
+            }
+        }
+    }
+}
