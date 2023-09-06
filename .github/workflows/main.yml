@@ -1,10 +1,9 @@
 name: Trigger Jenkins on Pull Request Close
 
 on:
-  pull_request:
-    types:
-      - closed
-
+  push:
+    branches:
+      - main
 jobs:
   trigger_jenkins:
     runs-on: ubuntu-latest
